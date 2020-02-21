@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>G8+5 Forked Time</title>
+    <script src="https://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+    <style>
+        body {
+            background: #007a8a;
+        }
+        .middle {
+            text-align: center;
+        }
+        .title {
+            color: #f3f3f3;
+            font-family: Menlo, Consolas, monospace, Courier;
+            font-size: 40px;
+            padding: 10px 0 40px 0;
+        }
+        .clock {
+            height: 48vh;
+            width: 60vw;
+            background-color: rgba(255, 255, 255, .5);
+            text-align: center;
+            position: relative;
+            left: 20vw;
+            font-family: Menlo, Consolas, monospace, Courier;
+            font-size: 2em;
+            color: white;
+            box-shadow: 7px 7px 5px 3px rgba(255, 255, 255, .3);
+        }
+        .date {
+            padding: 3vh 0 3vh 0;
+            font-size: 6vh;
+            line-height: 6vh;
+        }
+        .time {
+            padding: 9vh 0 21vh 0;
+            line-height: 6vh;
+            font-size: 6vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <h1 class="middle title">G8+5 Forked Time</h1>
+        <div class="clock">
+            <div class="date"><%= date %></div>
+            <div class="time"><%= time %></div>
+        </div>
+    </div>
+    <script>
+        function browserDetect() {
+            var sUserAgent = navigator.userAgent.toLowerCase();
+            var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+            var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+            var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+            var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+            var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+            var bIsAndroid = sUserAgent.match(/android/i) == "android";
+            var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+            var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+            if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+                return "phone";
+            } else {
+                return "pc";
+            }
+        }
+        if(browserDetect() === "pc") {
+            $(".time")
+                .css("font-size", "14vh")
+                .css("padding", "5vh 0 17vh 0")
+                .css("line-height", "14vh");
+        }
+        function pad(str) {
+            str = String(str);
+            return str.length < 2 ? "0" + str : str;
+        }
+        function getForkedDate(tsp) {
+            const d = new Date(tsp);
+            return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
+        }
+        function getForkedTime(tsp) {
+            var ts = new Date(tsp);
+            return [pad(ts.getHours()), pad(ts.getMinutes()), pad(ts.getSeconds())].join(":");
+        }
+        setInterval(function () {
+            $.getJSON("/timestamp", function (data) {
+                var ts = data.timestamp;
+                $(".date").text(getForkedDate(ts));
+                $(".time").text(getForkedTime(ts));
+            });
+        }, 100);
+    </script>
+</body>
+</html>

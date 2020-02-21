@@ -1,0 +1,29 @@
+{
+  "name": "clock",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node bin/www --port=1289",
+    "dev": "./node_modules/.bin/nodemon bin/www --port=1289",
+    "prd": "pm2 start bin/www --port=1289",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "debug": "^2.6.3",
+    "ejs": "^2.6.1",
+    "koa": "^2.2.0",
+    "koa-bodyparser": "^3.2.0",
+    "koa-convert": "^1.2.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^2.0.1",
+    "koa-onerror": "^1.2.1",
+    "koa-router": "^7.1.1",
+    "koa-static": "^3.0.0",
+    "koa-views": "^5.2.1",
+    "pug": "^2.0.0-rc.1",
+    "yargs": "^12.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.8.1"
+  }
+}
